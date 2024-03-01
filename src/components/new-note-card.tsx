@@ -9,6 +9,7 @@ interface NewNoteCardProps {
 
 export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
+  const [isRecording, setIsRecording] = useState(false)
   const [content, setContent] = useState('')
 
   function handleStartEditor () {
@@ -32,6 +33,10 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
       setShouldShowOnboarding(true)
 
       toast.success('Nota criada com sucesso!')
+  }
+
+  function handleStartRecording() {
+    setIsRecording(true)
   }
 
   return (
@@ -58,7 +63,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                   </span>
                  {shouldShowOnboarding ? (
                      <p className="text-sm leading-6 text-slate-400">
-                     Comece <button className='font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button onClick={handleStartEditor} className='font-medium text-lime-400 hover:underline'>utiliza apenas texto.</button> 
+                     Comece <button onClick={handleStartRecording} className='font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button onClick={handleStartEditor} className='font-medium text-lime-400 hover:underline'>utiliza apenas texto.</button> 
                     </p>
                  ) :(
                  <textarea autoFocus 
@@ -70,9 +75,23 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                 ) }
               </div>
 
-              <button 
+              {isRecording ? (
+                <button 
+                type="submit"
+               className="w-full bg-lime-400 py-4 text-center text-lime-950 outline-none font-medium hover:bg-lime-500" 
+              >
+               Gravando! (clique p/ interromper)
+             </button>
+              ) : <button 
                  type="submit"
-                className="w-full bg-lime-400 py-4 text-center text-lime-950 outline-none font-medium hover:bg-lime-500" 
+                 className="w-full bg-lime-400 py-4 text-center text-lime-950 outline-none font-medium hover:bg-lime-500" 
+              >
+              Salvar nota
+           </button>}
+
+              <button 
+                   type="submit"
+                   className="w-full bg-lime-400 py-4 text-center text-lime-950 outline-none font-medium hover:bg-lime-500" 
                >
                 Salvar nota
               </button>
